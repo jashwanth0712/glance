@@ -17,10 +17,13 @@ import type * as github_repositories from "../github/repositories.js";
 import type * as github_webhookHandler from "../github/webhookHandler.js";
 import type * as http from "../http.js";
 import type * as pipeline_classify from "../pipeline/classify.js";
+import type * as pipeline_glance from "../pipeline/glance.js";
+import type * as pipeline_glanceCache from "../pipeline/glanceCache.js";
 import type * as pipeline_group from "../pipeline/group.js";
 import type * as pipeline_orchestrator from "../pipeline/orchestrator.js";
 import type * as pipeline_prompts from "../pipeline/prompts.js";
 import type * as queries_dashboard from "../queries/dashboard.js";
+import type * as queries_glance from "../queries/glance.js";
 import type * as users from "../users.js";
 
 import type {
@@ -39,10 +42,13 @@ declare const fullApi: ApiFromModules<{
   "github/webhookHandler": typeof github_webhookHandler;
   http: typeof http;
   "pipeline/classify": typeof pipeline_classify;
+  "pipeline/glance": typeof pipeline_glance;
+  "pipeline/glanceCache": typeof pipeline_glanceCache;
   "pipeline/group": typeof pipeline_group;
   "pipeline/orchestrator": typeof pipeline_orchestrator;
   "pipeline/prompts": typeof pipeline_prompts;
   "queries/dashboard": typeof queries_dashboard;
+  "queries/glance": typeof queries_glance;
   users: typeof users;
 }>;
 

@@ -102,7 +102,8 @@ export default defineSchema({
   })
     .index("by_repo", ["repositoryId"])
     .index("by_repo_status", ["repositoryId", "processingStatus"])
-    .index("by_repo_pr_number", ["repositoryId", "prNumber"]),
+    .index("by_repo_pr_number", ["repositoryId", "prNumber"])
+    .index("by_repo_created", ["repositoryId", "createdAtGh"]),
 
   // ── Commits to default branch (may or may not belong to a PR) ────────────
   commits: defineTable({
@@ -124,7 +125,8 @@ export default defineSchema({
   })
     .index("by_repo", ["repositoryId"])
     .index("by_repo_status", ["repositoryId", "processingStatus"])
-    .index("by_sha", ["repositoryId", "sha"]),
+    .index("by_sha", ["repositoryId", "sha"])
+    .index("by_repo_committed", ["repositoryId", "committedAt"]),
 
   // ── LLM classification results ──────────────────────────────────────────
   classifications: defineTable({
@@ -193,6 +195,21 @@ export default defineSchema({
   })
     .index("by_repo_status", ["repositoryId", "status"])
     .index("by_repo_type", ["repositoryId", "jobType"]),
+
+  // ── Cached "Glance" executive summaries (one per repo + window) ──────────
+  glanceSummaries: defineTable({
+    repositoryId: v.id("repositories"),
+    windowKey: v.string(), // "3d" | "1w" | "1m" | "3m"
+    // sha256 of the window's classified content — a cache hit means the
+    // underlying data is unchanged, so the stored narrative still applies.
+    contentHash: v.string(),
+    narrative: v.string(),
+    model: v.string(),
+    classifiedCount: v.number(),
+    generatedAt: v.number(),
+  })
+    .index("by_repo_window", ["repositoryId", "windowKey"])
+    .index("by_repo_window_hash", ["repositoryId", "windowKey", "contentHash"]),
 
   // ── Webhook event log (dedupe + debugging) ───────────────────────────────
   webhookEvents: defineTable({

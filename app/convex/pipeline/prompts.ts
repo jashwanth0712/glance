@@ -8,6 +8,7 @@ export const GROUPING_PROMPT_VERSION = 1;
 // Model routed through OpenRouter (OpenAI-compatible endpoint).
 export const CLASSIFY_MODEL = "z-ai/glm-4.7-flash";
 export const GROUP_MODEL = "z-ai/glm-4.7-flash";
+export const GLANCE_MODEL = "z-ai/glm-4.7-flash";
 
 export const CATEGORY_VALUES = [
   "end_user_features",
@@ -122,4 +123,97 @@ export function buildGroupingPrompt(
     )
     .join("\n");
   return `EXISTING FUNCTIONALITY UNITS:\n${existing}\n\nNEW ITEMS TO PLACE:\n${newItems}`;
+}
+
+// ── Glance executive summary ────────────────────────────────────────────────
+
+export const GLANCE_NARRATIVE_VERSION = 1;
+
+export const glanceNarrativeSchema = z.object({
+  narrative: z
+    .string()
+    .max(800)
+    .describe("A 3-5 sentence plain-English executive summary."),
+});
+
+export const GLANCE_SYSTEM_PROMPT = `You write brief executive summaries for an engineering manager reviewing what shipped over a time window.
+
+Write 3 to 5 sentences of plain, direct prose. No bullet points, no headers, no markdown. Focus on:
+- What was actually shipped (the main themes/features).
+- Who drove the work.
+- The mix of work (features vs performance vs cost vs admin/support vs tech debt) and any notable skew.
+- Whether the team was working in a focused, aligned way or spread across unrelated areas.
+
+Be concrete and specific to the data. Do not invent facts not present in the input. If the volume is small, say so plainly.`;
+
+export function buildGlancePrompt(input: {
+  repoFullName: string;
+  windowLabel: string;
+  categoryCounts: Record<string, number>;
+  topUnits: Array<{ title: string; summary: string; categories: string[] }>;
+  contributors: Array<{ login: string; total: number; counts: Record<string, number> }>;
+  classifiedCount: number;
+  pendingCount: number;
+  alignmentScore: number | null;
+  alignmentLabel: string | null;
+}): string {
+  const cats = CATEGORY_VALUES.map(
+    (c) => `${CATEGORY_LABELS[c]}: ${input.categoryCounts[c] ?? 0}`,
+  ).join(", ");
+
+  const themes =
+    input.topUnits.length > 0
+      ? input.topUnits
+          .map(
+            (u) =>
+              `- ${u.title} [${u.categories.join(", ")}]: ${u.summary}`,
+          )
+          .join("\n")
+      : "(no grouped themes yet)";
+
+  const dominantCat = (counts: Record<string, number>) => {
+    let best = "";
+    let bestN = -1;
+    for (const c of CATEGORY_VALUES) {
+      const n = counts[c] ?? 0;
+      if (n > bestN) {
+        bestN = n;
+        best = CATEGORY_LABELS[c];
+      }
+    }
+    return best;
+  };
+
+  const people =
+    input.contributors.length > 0
+      ? input.contributors
+          .map(
+            (c) =>
+              `- ${c.login}: ${c.total} changes (mostly ${dominantCat(c.counts)})`,
+          )
+          .join("\n")
+      : "(no contributors)";
+
+  const alignment =
+    input.alignmentScore !== null
+      ? `${input.alignmentScore}/100 (${input.alignmentLabel})`
+      : "not applicable (fewer than 2 contributors)";
+
+  return [
+    `Repository: ${input.repoFullName}`,
+    `Window: the past ${input.windowLabel}`,
+    `Classified changes: ${input.classifiedCount}${
+      input.pendingCount > 0
+        ? ` (${input.pendingCount} still being classified)`
+        : ""
+    }`,
+    `Category breakdown: ${cats}`,
+    `Team alignment score: ${alignment}`,
+    ``,
+    `Top themes:`,
+    themes,
+    ``,
+    `Contributors:`,
+    people,
+  ].join("\n");
 }

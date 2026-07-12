@@ -10,6 +10,7 @@ import { PRFeed } from "@/components/dashboard/PRFeed";
 import { CategoryTrends } from "@/components/dashboard/CategoryTrends";
 import { CategoryHeatmap } from "@/components/dashboard/CategoryHeatmap";
 import { ContributorBreakdown } from "@/components/dashboard/ContributorBreakdown";
+import { GlanceButton } from "@/components/dashboard/GlanceButton";
 import { categoryMeta, CATEGORY_ORDER } from "@/lib/categories";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Layers, Radio } from "lucide-react";
@@ -69,6 +70,9 @@ export default function RepoPage({
               : ""}
           </p>
         </div>
+        {stats && stats.totalClassified > 0 && (
+          <GlanceButton repoId={repoId} repoName={repo.fullName} />
+        )}
       </div>
 
       {/* Category rollup */}
