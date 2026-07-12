@@ -9,7 +9,18 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as crons from "../crons.js";
+import type * as github_ingest from "../github/ingest.js";
+import type * as github_installations from "../github/installations.js";
+import type * as github_octokit from "../github/octokit.js";
+import type * as github_repositories from "../github/repositories.js";
+import type * as github_webhookHandler from "../github/webhookHandler.js";
 import type * as http from "../http.js";
+import type * as pipeline_classify from "../pipeline/classify.js";
+import type * as pipeline_group from "../pipeline/group.js";
+import type * as pipeline_orchestrator from "../pipeline/orchestrator.js";
+import type * as pipeline_prompts from "../pipeline/prompts.js";
+import type * as queries_dashboard from "../queries/dashboard.js";
 import type * as users from "../users.js";
 
 import type {
@@ -20,7 +31,18 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  crons: typeof crons;
+  "github/ingest": typeof github_ingest;
+  "github/installations": typeof github_installations;
+  "github/octokit": typeof github_octokit;
+  "github/repositories": typeof github_repositories;
+  "github/webhookHandler": typeof github_webhookHandler;
   http: typeof http;
+  "pipeline/classify": typeof pipeline_classify;
+  "pipeline/group": typeof pipeline_group;
+  "pipeline/orchestrator": typeof pipeline_orchestrator;
+  "pipeline/prompts": typeof pipeline_prompts;
+  "queries/dashboard": typeof queries_dashboard;
   users: typeof users;
 }>;
 
