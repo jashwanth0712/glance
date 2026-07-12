@@ -1,33 +1,36 @@
-# Twitter Posts
+# Published Twitter Posts
 
-## Thread Opener
+**Account:** [@jashwanth0712](https://x.com/jashwanth0712)
 
-Hey all, building a small tool that helps teams figure out what to work on next — and more importantly, what not to. Stay tuned!
+**Posted:** 2026-07-12
 
-## Quote Tweet
+## Post 1
 
-The most important part of development isn't shipping the most code or features — it's knowing what not to work on.
+Most important part of development is not ship the most code / features.  its knowing what not to work on
 
-## Post 1 — The Question
+## Post 2
 
-Be honest — when was the last time your team stopped mid-sprint and asked "are we even building the right thing?"
+Hey all,<br>
+building a small tool that helps teams figure out what to work on next and more importantly, what not to.
 
-AI made shipping 10x faster. But nobody talks about how easy it is to ship 10x faster in the wrong direction.
+if you faced the problem , drop in a comment<br>
+would love to hear your experience
 
-## Post 2 — The Callout
+(btw im building this for<br>
+[@GrowthX_Club](https://x.com/GrowthX_Club) Hermes buildathon 🤩 )
 
-Nobody ever got fired for "improving the codebase."
+## Draft — Introducing Glance
 
-But I've watched teams miss deadlines because someone spent a week refactoring auth middleware that was working perfectly fine.
+**Drafted:** 2026-07-12
 
-Building fast is a superpower. Building the wrong thing fast is a trap.
+**Companion image:** `glance-introducing.png` (exported to Downloads)
 
-What's the most unnecessary thing you've seen a team build?
+Introducing Glance 👀
 
-## Post 3 — The Reframe
+AI made it easier than ever to build fast. But speed means little if you’re building the wrong thing.
 
-Hot take: Sprints made more sense when shipping was hard.
+Glance is an AI product compass that helps teams decide what to build next—and what not to.
 
-Now that AI can flush out features in hours, the bottleneck isn't velocity — it's direction.
+Stay focused. Ship what matters.
 
-The teams winning right now aren't the ones building fastest. They're the ones that pause, look up, and ask "wait, should we even be building this?"
+Built for the [@GrowthX_Club](https://x.com/GrowthX_Club) Hermes Buildathon 🚀
